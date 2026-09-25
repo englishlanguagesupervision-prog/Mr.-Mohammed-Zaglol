@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة اختبارات الرياضيات - أ/ محمد زغلول (تعلم الرياضيات)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e293b;
+      --accent: #0284c7;
+      --accent-warm: #b91c1c;
+      --accent-glow: rgba(2, 132, 199, 0.35);
+      --text-light: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --success: #10b981;
+      --danger: #ef4444;
+      --card-bg: rgba(30, 41, 59, 0.85);
+      --whatsapp: #25d366;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0b1120 100%);
+      color: var(--text-light);
+      min-height: 100vh;
+      padding-bottom: 50px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.75) 100%);
+      border-bottom: 2px solid rgba(2, 132, 199, 0.35);
+      padding: 22px 20px;
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .teacher-brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 105px;
+      height: 105px;
+      flex-shrink: 0;
+    }
+
+    .avatar-outer-ring {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(135deg, #0284c7, #b91c1c, #38bdf8);
+      box-shadow: 0 0 20px var(--accent-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #fff;
+      border: 3px solid #0f172a;
+    }
+
+    .avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .expert-badge {
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, #b91c1c, #991b1b);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      border: 2px solid #0f172a;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.6);
+    }
+
+    .teacher-info h1 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .teacher-info h1 span {
+      color: #38bdf8;
+    }
+
+    .teacher-info p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-top: 4px;
+    }
+
+    /* WhatsApp Button in Header */
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 25px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      margin-top: 8px;
+      direction: ltr;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .whatsapp-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.55);
+      background: linear-gradient(135deg, #2bf074, #149c8c);
+    }
+
+    .whatsapp-icon {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .exam-title-badge {
+      text-align: left;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 12px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+    }
+
+    .exam-title-badge h2 {
+      font-size: 1.15rem;
+      color: #38bdf8;
+    }
+
+    .exam-title-badge span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 30px auto;
+      padding: 0 16px;
+    }
+
+    .student-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+      margin-bottom: 28px;
+    }
+
+    .student-card h3 {
+      font-size: 1.2rem;
+      color: #38bdf8;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .form-group input {
+      width: 100%;
+      background: #0b1120;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .section-header {
+      background: linear-gradient(90deg, #075985, #0284c7);
+      padding: 14px 22px;
+      border-radius: 14px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-right: 5px solid #b91c1c;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
+
+    .section-header span.points {
+      background: rgba(0,0,0,0.3);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: #fde047;
+    }
+
+    .q-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+      transition: all 0.25s ease;
+    }
+
+    .q-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .q-text {
+      font-size: 1.08rem;
+      font-weight: 700;
+      line-height: 1.8;
+      margin-bottom: 16px;
+      color: #f1f5f9;
+    }
+
+    .math-symbol {
+      font-family: 'Amiri', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #facc15;
+      padding: 0 4px;
+    }
+
+    .fraction {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      padding: 0 5px;
+      font-size: 0.95em;
+    }
+
+    .fraction .top {
+      border-bottom: 2px solid #facc15;
+      padding-bottom: 1px;
+    }
+
+    .fraction .bottom {
+      padding-top: 1px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .option-btn {
+      background: #0f172a;
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .option-btn span.lbl {
+      color: #38bdf8;
+      font-weight: 800;
+    }
+
+    .option-btn:hover {
+      border-color: #38bdf8;
+      background: rgba(2, 132, 199, 0.12);
+    }
+
+    .option-btn.selected {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.28), rgba(2, 132, 199, 0.12));
+      border-color: #38bdf8;
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    .option-btn.correct {
+      background: rgba(16, 185, 129, 0.25) !important;
+      border-color: var(--success) !important;
+      color: #34d399 !important;
+    }
+
+    .option-btn.wrong {
+      background: rgba(239, 68, 68, 0.25) !important;
+      border-color: var(--danger) !important;
+      color: #f87171 !important;
+    }
+
+    .essay-box input[type="text"] {
+      width: 100%;
+      background: #0b1120;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 12px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .essay-box input[type="text"]:focus {
+      border-color: #38bdf8;
+    }
+
+    .venn-wrapper {
+      text-align: center;
+      margin: 18px 0;
+      background: #0c1322;
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .venn-svg {
+      max-width: 480px;
+      width: 100%;
+      height: auto;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(90deg, #0284c7, #0369a1);
+      color: #fff;
+      border: none;
+      padding: 18px;
+      border-radius: 14px;
+      font-size: 1.3rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 25px var(--accent-glow);
+      transition: all 0.3s;
+      margin-top: 25px;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px rgba(2, 132, 199, 0.55);
+    }
+
+    #results-area {
+      display: none;
+      margin-top: 40px;
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .score-summary-card {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 2px solid #38bdf8;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+      margin-bottom: 30px;
+    }
+
+    .score-big {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: #fbbf24;
+      margin: 10px 0;
+    }
+
+    /* Royal Certificate */
+    .certificate-container {
+      background: #0b1120;
+      padding: 20px 0;
+    }
+
+    .certificate {
+      position: relative;
+      background: #fff;
+      color: #1e293b;
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 40px;
+      border: 12px double #0284c7;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+      background-image: radial-gradient(circle at 50% 50%, rgba(2, 132, 199, 0.05) 0%, rgba(255, 255, 255, 1) 70%);
+      border-radius: 4px;
+    }
+
+    .cert-corner {
+      position: absolute;
+      width: 45px;
+      height: 45px;
+      border: 3px solid #b91c1c;
+    }
+    .cert-tl { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+    .cert-tr { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+    .cert-bl { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+    .cert-br { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+    .cert-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px dashed #cbd5e1;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+
+    .cert-title {
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .cert-title h2 {
+      font-family: 'Amiri', serif;
+      font-size: 2.2rem;
+      color: #0369a1;
+      letter-spacing: 1px;
+    }
+
+    .cert-title p {
+      color: #64748b;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .cert-body {
+      text-align: center;
+      padding: 15px 0;
+      line-height: 2.2;
+    }
+
+    .cert-student-name {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #0369a1;
+      border-bottom: 2px solid #b91c1c;
+      display: inline-block;
+      padding: 0 30px 4px 30px;
+      margin: 8px 0;
+    }
+
+    .cert-details {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .cert-grade-tag {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #0284c7;
+      padding: 4px 18px;
+      border-radius: 30px;
+      font-weight: 800;
+      font-size: 1.25rem;
+    }
+
+    .cert-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 35px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .cert-teacher-box {
+      text-align: center;
+    }
+
+    .cert-stamp {
+      width: 95px;
+      height: 95px;
+      border-radius: 50%;
+      border: 2px dashed #0284c7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(-12deg);
+      color: #0369a1;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-align: center;
+      line-height: 1.3;
+      padding: 6px;
+    }
+
+    .cert-whatsapp-link {
+      color: #16a34a;
+      text-decoration: none;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .print-btn {
+      background: #1e293b;
+      color: #fff;
+      border: 1px solid #38bdf8;
+      padding: 12px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      margin-top: 20px;
+      transition: all 0.2s;
+    }
+    .print-btn:hover {
+      background: #0284c7;
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      #certificate-view, #certificate-view * { visibility: visible; }
+      #certificate-view {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: transparent;
+        padding: 0;
+      }
+      .print-btn { display: none; }
+    }
+
+    @media (max-width: 650px) {
+      .header-container { flex-direction: column; text-align: center; }
+      .teacher-brand { flex-direction: column; }
+      .exam-title-badge { text-align: center; width: 100%; }
+      .options-grid { grid-template-columns: 1fr; }
+      .cert-header, .cert-footer { flex-direction: column; gap: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="teacher-brand">
+        <div class="avatar-wrapper">
+          <div class="avatar-outer-ring">
+            <div class="avatar-inner">
+              <img id="main-teacher-img" src="./zaghloul_logo.jpg" onerror="this.src='./image_1c70c4.jpg'" alt="أ/ محمد زغلول">
+            </div>
+          </div>
+          <div class="expert-badge">معلم خبير</div>
+        </div>
+
+        <div class="teacher-info">
+          <h1>تعلّم <span>الرياضيات</span></h1>
+          <p>إعداد وتقديم: <strong>أ/ محمد زغلول</strong></p>
+          <!-- زر واتساب التفاعلي المباشر -->
+          <div>
+            <a href="https://wa.me/201555340509" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
+              <svg class="whatsapp-icon" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.976.58 1.966.924 3.149.924 3.182 0 5.767-2.587 5.767-5.766.001-3.187-2.575-5.766-5.767-5.766zm10.187 5.767c0 5.642-4.586 10.228-10.218 10.228-1.782 0-3.483-.464-4.972-1.275l-5.696 1.493 1.524-5.568c-.902-1.547-1.385-3.322-1.385-5.158 0-5.642 4.586-10.228 10.218-10.228 5.643 0 10.529 4.586 10.529 10.088z"/>
+              </svg>
+              <span>+20 15 55340509</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="exam-title-badge">
+        <h2>اختبار مادة الرياضيات</h2>
+        <span>الصف الأول الإعدادي - الفصل الدراسي الأول</span><br>
+        <span style="color:#e2e8f0; font-weight:700;">العام الدراسي: 2026 / 2027 م</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Container -->
+  <div class="container">
+    
+    <!-- Student Registration -->
+    <div class="student-card">
+      <h3>📝 بيانات الطالب / الطالبة</h3>
+      <div class="input-grid">
+        <div class="form-group">
+          <label for="studentName">اسم الطالب رباعي:</label>
+          <input type="text" id="studentName" placeholder="أدخل اسمك الكريم..." required>
+        </div>
+        <div class="form-group">
+          <label for="studentClass">الفصل / المجموعة:</label>
+          <input type="text" id="studentClass" placeholder="مثال: 1 / 2">
+        </div>
+        <div class="form-group">
+          <label for="seatNumber">رقم الجلوس (إن وُجد):</label>
+          <input type="text" id="seatNumber" placeholder="مثال: 1045">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="section-header">
+      <span>السؤال الأول: اختر الإجابة الصحيحة من بين الإجابات المعطاة</span>
+      <span class="points">10 درجات</span>
+    </div>
+
+    <form id="quizForm">
+
+      <!-- Q1 -->
+      <div class="q-card" data-q="1">
+        <div class="q-text">
+          (1) إذا كان 
+          <span class="fraction"><span class="top">2</span><span class="bottom">5</span></span> = 
+          <span class="fraction"><span class="top">k</span><span class="bottom">10</span></span>
+          ، فإن قيمة <span class="math-symbol">k</span> تساوي ...................
+        </div>
+        <div class="options-grid">
+          <div class="option-btn" onclick="selectOption(1, 'أ', this)"><span>2</span><span class="lbl">( أ )</span></div>
+          <div class="option-btn" onclick="selectOption(1, 'ب', this)"><span>4</span><span class="lbl">( ب )</span></div>
+          <div class="option-btn" onclick="selectOption(1, 'ج', this)"><span>5</span><span class="lbl">( ج )</span></div>
+          <div class="option-btn" onclick="selectOption(1, 'د', this)"><span>10</span><span class="lbl">( د )</span></div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="q-card" data-q="2">
+        <div class="q-text">
+          (2) إذا كانت الكميات <span class="math-symbol">2 , 8 , x , 16</span> كميات متناسبة، فإن <span class="math-symbol">x</span> = ...................
+        </div>
+        <div class="options-grid">
+          <div class="option-btn" onclick="selectOption(2, 'أ', this)"><span>2</span><span class="lbl">( أ )</span></div>
+          <div class="option-btn" onclick="selectOption(2, 'ب', this)"><span>4</span><span class="lbl">( ب )</span></div>
+          <div class="option-btn" onclick="selectOption(2, 'ج', this)"><span>10</span><span class="lbl">( ج )</span></div>
+          <div class="option-btn" onclick="selectOption(2, 'د', this)"><span>16</span><span class="lbl">( د )</span></div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="q-card" data-q="3">
+        <div class="q-text">
+          (3) إذا كان <span class="math-symbol">3y = 5x</span> ، فإن 
+          <span class="fraction"><span class="top">x</span><span class="bottom">y</span></span> = ...................
+        </div>
+        <div class="options-grid">
+          <div class="option-btn" onclick="selectOption(3, 'أ', this)"><span>3 : 5</span><span class="lbl">( أ )</span></div>
+          <div class="option-btn" onclick="selectOption(3, 'ب', this)"><span>5 : 3</span><span class="lbl">( ب )</span></div>
+          <div class="option-btn" onclick="selectOption(3, 'ج', this)"><span>1 : 15</span><span class="lbl">( ج )</span></div>
+          <div class="option-btn" onclick="selectOption(3, 'د', this)"><span>15 : 1</span><span class="lbl">( د )</span></div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="q-card" data-q="4">
+        <div class="q-text">
+          (4) إذا كان 
+          <span class="fraction"><span class="top">6</span><span class="bottom">x - 1</span></span> = 
+          <span class="fraction"><span class="top">2</span><span class="bottom">3</span></span>
+          ، فإن <span class="math-symbol">x</span> = ...................
+        </div>
+        <div class="options-grid">
+          <div class="option-btn" onclick="selectOption(4, 'أ', this)"><span>6</span><span class="lbl">( أ )</span></div>
+          <div class="option-btn" onclick="selectOption(4, 'ب', this)"><span>8</span><span class="lbl">( ب )</span></div>
+          <div class="option-btn" onclick="selectOption(4, 'ج', this)"><span>10</span><span class="lbl">( ج )</span></div>
+          <div class="option-btn" onclick="selectOption(4, 'د', this)"><span>9</span><span class="lbl">( د )</span></div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="q-card" data-q="5">
+        <div class="q-text">
+          (5) إذا كان مقياس رسم قناة السويس <span class="math-symbol">1 : 1,100,000</span> وكان طولها على الخريطة <span class="math-symbol">15 cm</span> ، فإن الطول الحقيقي للقناة = ................... <span class="math-symbol">km</span>
+        </div>
+        <div class="options-grid">
+          <div class="option-btn" onclick="selectOption(5, 'أ', this)"><span>1.65</span><span class="lbl">( أ )</span></div>
+          <div class="option-btn" onclick="selectOption(5, 'ب', this)"><span>16.5</span><span class="lbl">( ب )</span></div>
+          <div class="option-btn" onclick="selectOption(5, 'ج', this)"><span>165</span><span class="lbl">( ج )</span></div>
+          <div class="option-btn" onclick="selectOption(5, 'د', this)"><span>16,500,000</span><span class="lbl">( د )</span></div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="q-card" data-q="6">
+        <div class="q-text">
+          (6) إذا انخفض سعر سلعة من <span class="math-symbol">1,500</span> إلى <span class="math-symbol">1,200</span> جنيه، فإن نسبة التخفيض هي ...................
+        </div>
+        <div class="options-grid">
+          <div class="option-btn" onclick="selectOption(6, 'أ', this)"><span>5%</span><span class="lbl">( أ )</span></div>
+          <div class="option-btn" onclick="selectOption(6, 'ب', this)"><span>10%</span><span class="lbl">( ب )</span></div>
+          <div class="option-btn" onclick="selectOption(6, 'ج', this)"><span>20%</span><span class="lbl">( ج )</span></div>
+          <div class="option-btn" onclick="selectOption(6, 'د', this)"><span>30%</span><span class="lbl">( د )</span></div>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="q-card" data-q="7">
+        <div class="q-text">
+          (7) إذا كانت <span class="math-symbol">10%</span> من <span class="math-symbol">x</span> تساوي <span class="math-symbol">4</span> ، فإن <span class="math-symbol">x</span> = ...................
+        </div>
+        <div class="options-grid">
+          <div class="option-btn" onclick="selectOption(7, 'أ', this)"><span>20</span><span class="lbl">( أ )</span></div>
+          <div class="option-btn" onclick="selectOption(7, 'ب', this)"><span>40</span><span class="lbl">( ب )</span></div>
+          <div class="option-btn" onclick="selectOption(7, 'ج', this)"><span>80</span><span class="lbl">( ج )</span></div>
+          <div class="option-btn" onclick="selectOption(7, 'د', this)"><span>200</span><span class="lbl">( د )</span></div>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="q-card" data-q="8">
+        <div class="q-text">
+          (8) إذا كانت <span class="math-symbol">{4 , 5 , 7} ⊂ {3 , x , 4 , y , 8}</span> ، فما قيمة <span class="math-symbol">x + y</span> ؟
+        </div>
+        <div class="options-grid">
+          <div class="option-btn" onclick="selectOption(8, 'أ', this)"><span>5</span><span class="lbl">( أ )</span></div>
+          <div class="option-btn" onclick="selectOption(8, 'ب', this)"><span>7</span><span class="lbl">( ب )</span></div>
+          <div class="option-btn" onclick="selectOption(8, 'ج', this)"><span>8</span><span class="lbl">( ج )</span></div>
+          <div class="option-btn" onclick="selectOption(8, 'د', this)"><span>12</span><span class="lbl">( د )</span></div>
+        </div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="q-card" data-q="9">
+        <div class="q-text">
+          (9) عدد المجموعات الجزئية لمجموعة تحتوي على <span class="math-symbol">5</span> عناصر يساوي ................... مجموعة.
+        </div>
+        <div class="options-grid">
+          <div class="option-btn" onclick="selectOption(9, 'أ', this)"><span>5</span><span class="lbl">( أ )</span></div>
+          <div class="option-btn" onclick="selectOption(9, 'ب', this)"><span>10</span><span class="lbl">( ب )</span></div>
+          <div class="option-btn" onclick="selectOption(9, 'ج', this)"><span>20</span><span class="lbl">( ج )</span></div>
+          <div class="option-btn" onclick="selectOption(9, 'د', this)"><span>32</span><span class="lbl">( د )</span></div>
+        </div>
+      </div>
+
+      <!-- Q10 -->
+      <div class="q-card" data-q="10">
+        <div class="q-text">
+          (10) من المجموعات الجزئية غير الفعلية للمجموعة <span class="math-symbol">{2 , 4 , 8}</span> هي ...................
+        </div>
+        <div class="options-grid">
+          <div class="option-btn" onclick="selectOption(10, 'أ', this)"><span>{2}</span><span class="lbl">( أ )</span></div>
+          <div class="option-btn" onclick="selectOption(10, 'ب', this)"><span>{4 , 8}</span><span class="lbl">( ب )</span></div>
+          <div class="option-btn" onclick="selectOption(10, 'ج', this)"><span>{2 , 4 , 8}</span><span class="lbl">( ج )</span></div>
+          <div class="option-btn" onclick="selectOption(10, 'د', this)"><span>{2 , 4}</span><span class="lbl">( د )</span></div>
+        </div>
+      </div>
+
+      <!-- Q11 -->
+      <div class="q-card" data-q="11">
+        <div class="q-text">
+          (11) عدد المجموعات الجزئية للمجموعة الخالية <span class="math-symbol">∅</span> يساوي ...................
+        </div>
+        <div class="options-grid">
+          <div class="option-btn" onclick="selectOption(11, 'أ', this)"><span>0 (صفر)</span><span class="lbl">( أ )</span></div>
+          <div class="option-btn" onclick="selectOption(11, 'ب', this)"><span>1</span><span class="lbl">( ب )</span></div>
+          <div class="option-btn" onclick="selectOption(11, 'ج', this)"><span>2</span><span class="lbl">( ج )</span></div>
+          <div class="option-btn" onclick="selectOption(11, 'د', this)"><span>3</span><span class="lbl">( د )</span></div>
+        </div>
+      </div>
+
+      <!-- Section 2 -->
+      <div class="section-header" style="background: linear-gradient(90deg, #991b1b, #075985); margin-top: 40px;">
+        <span>السؤال الثاني: أجب عن الأسئلة المقالية الآتية</span>
+        <span class="points">20 درجة</span>
+      </div>
+
+      <!-- Essay 1 -->
+      <div class="q-card">
+        <div class="q-text">
+          (1) إذا كانت نسبة الخصم <span class="math-symbol">10%</span> على أي قطعة داخل محل للملابس؛ فما هو ثمن شراء قميص سعره قبل الخصم <span class="math-symbol">300</span> جنيه؟
+        </div>
+        <div class="essay-box">
+          <input type="text" id="ans_e1" placeholder="اكتب الناتج النهائي بالأرقام (مثال: 270)...">
+        </div>
+      </div>
+
+      <!-- Essay 2 -->
+      <div class="q-card">
+        <div class="q-text">
+          (2) عددان صحيحان النسبة بينهما <span class="math-symbol">5 : 3</span> والفرق بينهما <span class="math-symbol">18</span> ، أوجد العددين.
+        </div>
+        <div class="essay-box">
+          <input type="text" id="ans_e2" placeholder="اكتب العددين مفصولين بفاصلة (مثال: 27 , 45)...">
+        </div>
+      </div>
+
+      <!-- Essay 3 with Venn Diagram -->
+      <div class="q-card">
+        <div class="q-text">
+          (3) من شكل ڤِن المقابل، أوجد كلاً مما يأتي:
+        </div>
+
+        <div class="venn-wrapper">
+          <svg class="venn-svg" viewBox="0 0 520 280">
+            <circle cx="170" cy="140" r="105" fill="none" stroke="#38bdf8" stroke-width="4.5" />
+            <text x="110" y="38" fill="#38bdf8" font-size="24" font-weight="bold">A</text>
+            
+            <ellipse cx="320" cy="140" rx="135" ry="110" fill="none" stroke="#22c55e" stroke-width="4.5" />
+            <text x="350" y="32" fill="#22c55e" font-size="24" font-weight="bold">B</text>
+
+            <circle cx="360" cy="145" r="48" fill="none" stroke="#f59e0b" stroke-width="3.5" />
+            <text x="352" y="125" fill="#f59e0b" font-size="20" font-weight="bold">C</text>
+
+            <circle cx="95" cy="120" r="4" fill="#fff" />
+            <text x="110" y="126" fill="#fff" font-size="20" font-weight="bold">2</text>
+
+            <circle cx="105" cy="165" r="4" fill="#fff" />
+            <text x="120" y="172" fill="#fff" font-size="20" font-weight="bold">3</text>
+
+            <circle cx="205" cy="115" r="4" fill="#fff" />
+            <text x="218" y="122" fill="#fff" font-size="20" font-weight="bold">4</text>
+
+            <circle cx="210" cy="165" r="4" fill="#fff" />
+            <text x="222" y="172" fill="#fff" font-size="20" font-weight="bold">5</text>
+
+            <circle cx="340" cy="155" r="4" fill="#fff" />
+            <text x="352" y="162" fill="#fff" font-size="20" font-weight="bold">6</text>
+
+            <circle cx="265" cy="195" r="4" fill="#fff" />
+            <text x="278" y="202" fill="#fff" font-size="20" font-weight="bold">7</text>
+
+            <text x="260" y="270" fill="#94a3b8" font-size="14" text-anchor="middle">شكل ڤِن (المجموعات A , B , C)</text>
+          </svg>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 15px;">
+          <div>
+            <label style="font-weight:700; color:#38bdf8;">① A ∩ C = </label>
+            <input type="text" id="ans_v1" placeholder="اكتب المجموعة (مثال: ∅ أو خالية)" style="background:#0b1120; border:1px solid #334155; padding:8px 12px; border-radius:8px; color:#fff; width:220px;">
+          </div>
+          <div>
+            <label style="font-weight:700; color:#22c55e;">② B ∩ C = </label>
+            <input type="text" id="ans_v2" placeholder="اكتب المجموعة (مثال: {6} أو C)" style="background:#0b1120; border:1px solid #334155; padding:8px 12px; border-radius:8px; color:#fff; width:220px;">
+          </div>
+          <div>
+            <label style="font-weight:700; color:#facc15;">③ A ∪ C = </label>
+            <input type="text" id="ans_v3" placeholder="مثال: {2, 3, 4, 5, 6}" style="background:#0b1120; border:1px solid #334155; padding:8px 12px; border-radius:8px; color:#fff; width:220px;">
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-submit" onclick="submitExam()">✨ تصحيح الاختبار واستلام الشهادة</button>
+    </form>
+
+    <!-- Results Area -->
+    <div id="results-area">
+      <div class="score-summary-card">
+        <h2 style="color:#fff;">نتيجة اختبار مادة الرياضيات</h2>
+        <p id="student-res-title" style="color:#94a3b8; margin-top:5px;"></p>
+        <div class="score-big"><span id="final-score">0</span> / 30</div>
+        <p id="appreciation" style="font-size: 1.3rem; font-weight: 800; color: #34d399;"></p>
+      </div>
+
+      <!-- Royal Certificate -->
+      <div id="certificate-view" class="certificate-container">
+        <div class="certificate">
+          <div class="cert-corner cert-tl"></div>
+          <div class="cert-corner cert-tr"></div>
+          <div class="cert-corner cert-bl"></div>
+          <div class="cert-corner cert-br"></div>
+
+          <div class="cert-header">
+            <div style="text-align: right;">
+              <h3 style="color:#0369a1; font-size:1.1rem; font-weight:800;">سلسلة تعلم الرياضيات</h3>
+              <p style="color:#64748b; font-size:0.85rem;">إشراف مادة الرياضيات التخصصية</p>
+            </div>
+            <div class="cert-title">
+              <h2>شَهَادَةُ تَقْدِيرٍ وَتَفَوُّق</h2>
+              <p>CERTIFICATE OF EXCELLENCE</p>
+            </div>
+            <div style="text-align: left;">
+              <span style="font-size:0.85rem; color:#64748b;">العام الدراسي</span><br>
+              <strong style="color:#0f172a;">2026 / 2027 م</strong>
+            </div>
+          </div>
+
+          <div class="cert-body">
+            <p class="cert-details">يَسرّ أستاذ المادة أن يمنح الطالب / الطالبة:</p>
+            <div class="cert-student-name" id="certName">اسم الطالب</div>
+            <p class="cert-details">
+              بالصف: <strong>الأول الإعدادي</strong> تقديراً لاجتيازه اختبار مادة الرياضيات بجداره وتفوق وحصوله على:
+            </p>
+            <div style="margin: 15px 0;">
+              <span class="cert-grade-tag" id="certScoreTag">الدرجة: 30 / 30 (ممتاز مرتفع)</span>
+            </div>
+            <p style="font-style: italic; color:#475569; font-size:0.95rem;">
+              «مع أطيب الأمنيات بدوام التوفيق والدرجات العلا دائماً»
+            </p>
+          </div>
+
+          <div class="cert-footer">
+            <div class="cert-stamp">
+              ختم الاعتماد<br>تعلم الرياضيات<br>★ أ/ محمد زغلول ★
+            </div>
+
+            <div class="cert-teacher-box">
+              <div style="display:flex; align-items:center; gap:14px; justify-content:center;">
+                <div style="width:70px; height:70px; border-radius:50%; border:3px solid #0284c7; padding:2px; background:#fff; overflow:hidden;">
+                  <img id="cert-teacher-img" src="./zaghloul_logo.jpg" onerror="this.src='./image_1c70c4.jpg'" style="width:100%; height:100%; object-fit:cover;" alt="أ/ محمد زغلول">
+                </div>
+                <div style="text-align: right;">
+                  <h4 style="color:#0f172a; font-size:1.15rem; font-weight:900;">أ/ محمد زغلول</h4>
+                  <p style="color:#0284c7; font-weight:700; font-size:0.85rem;">معلم الرياضيات التخصصي</p>
+                  <div>
+                    <a href="https://wa.me/201555340509" target="_blank" rel="noopener noreferrer" class="cert-whatsapp-link">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="#16a34a">
+                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.976.58 1.966.924 3.149.924 3.182 0 5.767-2.587 5.767-5.766.001-3.187-2.575-5.766-5.767-5.766zm10.187 5.767c0 5.642-4.586 10.228-10.218 10.228-1.782 0-3.483-.464-4.972-1.275l-5.696 1.493 1.524-5.568c-.902-1.547-1.385-3.322-1.385-5.158 0-5.642 4.586-10.228 10.218-10.228 5.643 0 10.529 4.586 10.529 10.088z"/>
+                      </svg>
+                      <span style="direction:ltr;">+20 15 55340509</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center;">
+          <button class="print-btn" onclick="window.print()">🖨️ طباعة أو حفظ الشهادة PDF</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const correctMCQ = {
+      1: 'ب', // 4
+      2: 'ب', // 4
+      3: 'أ', // 3:5
+      4: 'ج', // 10
+      5: 'ج', // 165
+      6: 'ج', // 20%
+      7: 'ب', // 40
+      8: 'د', // 12
+      9: 'د', // 32
+      10: 'ج', // {2, 4, 8}
+      11: 'ب'  // 1
+    };
+
+    const userAnswers = {};
+
+    function selectOption(qNum, choice, btnElement) {
+      userAnswers[qNum] = choice;
+      const parentCard = btnElement.closest('.q-card');
+      parentCard.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+      btnElement.classList.add('selected');
+    }
+
+    function submitExam() {
+      const name = document.getElementById('studentName').value.trim();
+      if (!name) {
+        alert('من فضلك اكتب اسمك أولاً في أعلى الصفحة لبدء التصحيح واستخراج الشهادة!');
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      let mcqScore = 0;
+      for (let i = 1; i <= 11; i++) {
+        const card = document.querySelector(`.q-card[data-q="${i}"]`);
+        const btns = card.querySelectorAll('.option-btn');
+        const correct = correctMCQ[i];
+
+        btns.forEach(b => {
+          b.classList.remove('correct', 'wrong');
+          if (b.innerText.includes(`(${correct})`)) {
+            b.classList.add('correct');
+          }
+        });
+
+        if (userAnswers[i] === correct) {
+          mcqScore += (10 / 11);
+        } else if (userAnswers[i]) {
+          btns.forEach(b => {
+            if (b.classList.contains('selected') && !b.innerText.includes(`(${correct})`)) {
+              b.classList.add('wrong');
+            }
+          });
+        }
+      }
+
+      let essayScore = 0;
+      const e1 = document.getElementById('ans_e1').value.trim();
+      if (e1.includes('270')) {
+        essayScore += 6;
+      }
+
+      const e2 = document.getElementById('ans_e2').value.trim();
+      if (e2.includes('27') && e2.includes('45')) {
+        essayScore += 7;
+      }
+
+      const v1 = document.getElementById('ans_v1').value.trim().toLowerCase();
+      const v2 = document.getElementById('ans_v2').value.trim().toLowerCase();
+      const v3 = document.getElementById('ans_v3').value.trim();
+
+      if (v1.includes('∅') || v1.includes('فاي') || v1.includes('خالي') || v1.includes('phi') || v1.includes('{}')) {
+        essayScore += 2;
+      }
+      if (v2.includes('6') || v2.includes('c') || v2.includes('ج')) {
+        essayScore += 2.5;
+      }
+      if (v3.includes('2') && v3.includes('3') && v3.includes('4') && v3.includes('5') && v3.includes('6')) {
+        essayScore += 2.5;
+      }
+
+      const totalScore = Math.min(30, Math.round(mcqScore + essayScore));
+
+      document.getElementById('results-area').style.display = 'block';
+      document.getElementById('final-score').innerText = totalScore;
+      document.getElementById('student-res-title').innerText = `طالب العلم المتميز: ${name}`;
+
+      let rateText = "";
+      if (totalScore >= 27) {
+        rateText = "ممتاز مرتفع مع مرتبة الشرف 🏆";
+      } else if (totalScore >= 24) {
+        rateText = "جيد جداً مرتفع 🌟";
+      } else if (totalScore >= 18) {
+        rateText = "جيد - أحسنت وبورك فيك 👍";
+      } else {
+        rateText = "يحتاج للمزيد من المراجعة والتدريب 📖";
+      }
+      document.getElementById('appreciation').innerText = rateText;
+
+      document.getElementById('certName').innerText = name;
+      document.getElementById('certScoreTag').innerText = `الدرجة المستحقة: ${totalScore} من 30 (${rateText})`;
+
+      document.getElementById('results-area').scrollIntoView({ behavior: 'smooth' });
+
+      if (totalScore >= 20 && window.confetti) {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+  </script>
+</body>
+</html>
